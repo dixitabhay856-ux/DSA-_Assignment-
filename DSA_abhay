@@ -1,0 +1,266 @@
+
+Q1. Implement Stack using Array Question Design and implement a stack using an array without using any built-in stack library. Perform: PUSH(x) POP() PEEK() DISPLAY() Program should handle Stack Overflow and Stack Underflow.
+
+#include using namespace std;
+
+#define MAX 5
+
+class Stack { int arr[MAX]; int top;
+
+public: Stack() { top = -1; }
+
+void PUSH(int x)
+{
+    if (top == MAX - 1)
+    {
+        cout << "Stack Overflow!" << endl;
+    }
+    else
+    {
+        top++;
+        arr[top] = x;
+        cout << x << " pushed into stack." << endl;
+    }
+}
+
+void POP()
+{
+    if (top == -1)
+    {
+        cout << "Stack Underflow!" << endl;
+    }
+    else
+    {
+        cout << arr[top] << " popped from stack." << endl;
+        top--;
+    }
+}
+
+void PEEK()
+{
+    if (top == -1)
+    {
+        cout << "Stack is empty." << endl;
+    }
+    else
+    {
+        cout << "Top element is: " << arr[top] << endl;
+    }
+}
+
+void DISPLAY()
+{
+    if (top == -1)
+    {
+        cout << "Stack is empty." << endl;
+    }
+    else
+    {
+        cout << "Stack elements are:" << endl;
+
+        for (int i = top; i >= 0; i--)
+        {
+            cout << arr[i] << " ";
+        }
+
+        cout << endl;
+    }
+}
+};
+
+int main() { Stack s; int choice, value;
+
+do
+{
+    cout << "\n----- STACK MENU -----" << endl;
+    cout << "1. PUSH" << endl;
+    cout << "2. POP" << endl;
+    cout << "3. PEEK" << endl;
+    cout << "4. DISPLAY" << endl;
+    cout << "5. EXIT" << endl;
+
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case 1:
+        cout << "Enter value: ";
+        cin >> value;
+        s.PUSH(value);
+        break;
+
+    case 2:
+        s.POP();
+        break;
+
+    case 3:
+        s.PEEK();
+        break;
+
+    case 4:
+        s.DISPLAY();
+        break;
+
+    case 5:
+        cout << "Program terminated." << endl;
+        break;
+
+    default:
+        cout << "Invalid choice!" << endl;
+    }
+
+} while (choice != 5);
+
+return 0;
+}
+
+
+
+
+
+Q2. Implement Circular Queue using Array Question Implement a Circular Queue using an array with: ENQUEUE(x) DEQUEUE() FRONT() DISPLAY() Implementation should correctly distinguish between full and empty queue.
+
+#include using namespace std;
+
+#define MAX 5
+
+class CircularQueue { int arr[MAX]; int front; int rear;
+
+public: CircularQueue() { front = -1; rear = -1; }
+
+void ENQUEUE(int x)
+{
+    // Queue is full
+    if ((rear + 1) % MAX == front)
+    {
+        cout << "Queue is Full!" << endl;
+        return;
+    }
+
+    // First element
+    if (front == -1)
+    {
+        front = 0;
+        rear = 0;
+    }
+    else
+    {
+        rear = (rear + 1) % MAX;
+    }
+
+    arr[rear] = x;
+
+    cout << x << " inserted into queue." << endl;
+}
+
+void DEQUEUE()
+{
+    if (front == -1)
+    {
+        cout << "Queue is Empty!" << endl;
+        return;
+    }
+
+    cout << arr[front] << " deleted from queue." << endl;
+
+    // Only one element was present
+    if (front == rear)
+    {
+        front = -1;
+        rear = -1;
+    }
+    else
+    {
+        front = (front + 1) % MAX;
+    }
+}
+
+void FRONT()
+{
+    if (front == -1)
+    {
+        cout << "Queue is Empty!" << endl;
+    }
+    else
+    {
+        cout << "Front element is: " << arr[front] << endl;
+    }
+}
+
+void DISPLAY()
+{
+    if (front == -1)
+    {
+        cout << "Queue is Empty!" << endl;
+        return;
+    }
+
+    cout << "Queue elements are: ";
+
+    int i = front;
+
+    while (true)
+    {
+        cout << arr[i] << " ";
+
+        if (i == rear)
+            break;
+
+        i = (i + 1) % MAX;
+    }
+
+    cout << endl;
+}
+};
+
+int main() { CircularQueue q; int choice, value;
+
+do
+{
+    cout << "\n----- CIRCULAR QUEUE MENU -----" << endl;
+    cout << "1. ENQUEUE" << endl;
+    cout << "2. DEQUEUE" << endl;
+    cout << "3. FRONT" << endl;
+    cout << "4. DISPLAY" << endl;
+    cout << "5. EXIT" << endl;
+
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice)
+    {
+    case 1:
+        cout << "Enter value: ";
+        cin >> value;
+        q.ENQUEUE(value);
+        break;
+
+    case 2:
+        q.DEQUEUE();
+        break;
+
+    case 3:
+        q.FRONT();
+        break;
+
+    case 4:
+        q.DISPLAY();
+        break;
+
+    case 5:
+        cout << "Program terminated." << endl;
+        break;
+
+    default:
+        cout << "Invalid choice!" << endl;
+    }
+
+} while (choice != 5);
+
+return 0;
+}
+
+Full queue check: (rear + 1) % MAX == front
+
+Empty queue check: front == -1
